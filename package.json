@@ -2,6 +2,8 @@
   "name": "nextjs-swr",
   "version": "1.0.0",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "next",
     "build": "next build",
     "start": "next start",
@@ -28,7 +30,8 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
     "babel-plugin-styled-components": "^2.0.7",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0"
   },
   "resolutions": {
     "styled-components": "^5"
