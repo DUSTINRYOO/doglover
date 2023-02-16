@@ -1,6 +1,9 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["random.dog"]
-  }
+    domains: ["random.dog"],
+  },
+  compiler: {
+    styledComponents: true,
+  },
 };
