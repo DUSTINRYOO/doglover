@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import ReactPlayer from "react-player";
 import styled from "styled-components";
 import useSWR from "swr";
@@ -28,6 +27,8 @@ const VideoBox = styled.div`
   justify-content: center;
   align-items: center;
   padding: 15px;
+  overflow: hidden;
+  margin-bottom: 30px;
 `;
 
 const Btn = styled.button`
@@ -58,38 +59,50 @@ interface ResponseType {
   isLiked: boolean;
 }
 
-const Home: NextPage = () => {
+export default function Home() {
   const URL = "https://dogs-api.nomadcoders.workers.dev";
-  const { data, mutate } = useSWR<ResponseType>(URL, {
+  const { data, mutate, error } = useSWR<ResponseType>(URL, {
     refreshInterval: 10000,
   });
+  const isLoading = !error && !data;
   return (
-    <Main>
-      <h1>Dog Lover!</h1>
-      <Box>
-        <VideoBox>
-          <ReactPlayer url={data?.url} playing height="300px" width="500px" />
-        </VideoBox>
-        <BtnBox>
-          <Btn
-            onClick={() => {
-              mutate();
-            }}
-          >
-            Show me another!
-          </Btn>
-          <Btn
-            onClick={() => {
-              const likeUnlike = !data?.isLiked;
-              mutate({ ...data!, isLiked: likeUnlike }, { revalidate: false });
-            }}
-          >
-            {data?.isLiked ? "Unlike" : "Like"}
-          </Btn>
-        </BtnBox>
-      </Box>
-    </Main>
+    <>
+      {isLoading ? (
+        <div></div>
+      ) : (
+        <Main>
+          <h1>Dog Lover! Yes, this is for you!</h1>
+          <Box>
+            <VideoBox>
+              <ReactPlayer url={data?.url} playing />
+            </VideoBox>
+            <BtnBox>
+              <Btn
+                onClick={() => {
+                  console.log(isLoading);
+                  mutate();
+                }}
+              >
+                Give me another!
+              </Btn>
+              <Btn
+                onClick={() => {
+                  const likeUnlike = !data?.isLiked;
+                  console.log("clicked");
+                  console.log(likeUnlike);
+                  mutate(
+                    { ...data!, isLiked: likeUnlike },
+                    { revalidate: false }
+                  );
+                  console.log(likeUnlike);
+                }}
+              >
+                {data?.isLiked ? "Unlike" : "Like"}
+              </Btn>
+            </BtnBox>
+          </Box>
+        </Main>
+      )}
+    </>
   );
-};
-
-export default Home;
+}
