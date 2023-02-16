@@ -6,6 +6,7 @@ import useSWR from "swr";
 const Main = styled.div`
   display: flex;
   flex-direction: column;
+  justify-items: center;
   align-items: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -15,10 +16,18 @@ const Main = styled.div`
 const Box = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-size: 50px;
 `;
 const VideoBox = styled.div`
-  margin: 30px;
+  display: flex;
+  height: 300px;
+  box-sizing: content-box;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
 `;
 
 const Btn = styled.button`
@@ -32,6 +41,7 @@ const Btn = styled.button`
   &:first-child {
     background-color: #f8ff6b;
     box-shadow: 0px 0px 20px yellow;
+    margin-right: 30px;
   }
   &:active {
     scale: 1.1;
@@ -40,7 +50,8 @@ const Btn = styled.button`
 const BtnBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
 `;
 interface ResponseType {
   url: string;
@@ -54,10 +65,10 @@ const Home: NextPage = () => {
   });
   return (
     <Main>
-      <h1>Dog Lover! Yes, this is for you!</h1>
+      <h1>Dog Lover!</h1>
       <Box>
         <VideoBox>
-          <ReactPlayer url={data?.url} playing />
+          <ReactPlayer url={data?.url} playing height="300px" width="500px" />
         </VideoBox>
         <BtnBox>
           <Btn
@@ -65,15 +76,12 @@ const Home: NextPage = () => {
               mutate();
             }}
           >
-            Give me another!
+            Show me another!
           </Btn>
           <Btn
             onClick={() => {
               const likeUnlike = !data?.isLiked;
-              console.log("clicked");
-              console.log(likeUnlike);
               mutate({ ...data!, isLiked: likeUnlike }, { revalidate: false });
-              console.log(likeUnlike);
             }}
           >
             {data?.isLiked ? "Unlike" : "Like"}
